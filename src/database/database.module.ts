@@ -9,11 +9,11 @@ import { User } from './entities/user.entity';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: '', // Cambia esto
-      password: '', // Cambia esto
-      database: 'tasks_db', // Cambia esto
+      username: '',
+      password: '',
+      database: 'tasks_db',
       entities: [Product,User],
-      synchronize: true, // Usar solo en desarrollo, en producción usa migraciones
+      synchronize: true,
     }),
   ],
 })
