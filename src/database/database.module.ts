@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
+import { User } from './entities/user.entity';
 
 @Module({
   imports: [
@@ -8,10 +9,10 @@ import { Product } from './entities/product.entity';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: 'your_username', // Cambia esto
-      password: 'your_password', // Cambia esto
-      database: 'your_database', // Cambia esto
-      entities: [Product],
+      username: '', // Cambia esto
+      password: '', // Cambia esto
+      database: 'tasks_db', // Cambia esto
+      entities: [Product,User],
       synchronize: true, // Usar solo en desarrollo, en producción usa migraciones
     }),
   ],
