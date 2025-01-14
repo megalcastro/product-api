@@ -36,10 +36,10 @@ export class UsersService {
     return { message: `User with ID ${id} deleted successfully` };
   }
 
-  async findByUsername(username: string): Promise<User> {
-    const user = await this.userRepository.findOne({ where: { username } });
+  async findByUsername(email: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { email } });
     if (!user) {
-      throw new NotFoundException(`User with username "${username}" not found`);
+      throw new NotFoundException(`User with username "${email}" not found`);
     }
     return user;
   }
