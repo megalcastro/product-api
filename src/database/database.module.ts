@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Product } from './entities/product.entity';
-import { User } from './entities/user.entity';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -12,7 +11,9 @@ import { User } from './entities/user.entity';
       username: '',
       password: '',
       database: 'tasks_db',
-      entities: [Product,User],
+      entities: [
+        join(__dirname, '**/entities/*.entity{.ts,.js}'),
+      ],
       synchronize: true,
     }),
   ],
