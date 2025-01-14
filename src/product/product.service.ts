@@ -37,5 +37,17 @@ export class ProductsService {
   
     return { data, total, page };
   }
-  
+
+  async deleteProductBySku(sku: string): Promise<boolean> {
+    const product = await this.productRepository.findOne({ where: { sku } });
+
+    if (!product || product.deleted) {
+      return false;
+    }
+    product.deleted = true;
+
+    await this.productRepository.save(product);
+    return true;
+  }
+
 }
