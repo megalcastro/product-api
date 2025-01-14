@@ -4,9 +4,9 @@ export const CONFIG = {
     DATABASE: {
       HOST: process.env.DB_HOST || 'localhost',
       PORT: parseInt(process.env.DB_PORT || '5432', 10),
-      USER: process.env.DB_USER || 'user',
-      PASSWORD: process.env.DB_PASSWORD || 'password',
-      NAME: process.env.DB_NAME || 'mydb',
+      USER: process.env.DB_USER || 'admin',
+      PASSWORD: process.env.DB_PASSWORD || 'admin',
+      NAME: process.env.DB_NAME || 'postgres',
     },
     CONTENTFUL_API:{
      CONTENTFUL_SPACE_ID:process.env.CONTENTFUL_SPACE_ID,

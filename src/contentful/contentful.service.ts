@@ -2,8 +2,9 @@ import { Injectable, Logger } from '@nestjs/common';
 import axios from 'axios';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { Product } from '../database/entities/product.entity';
-import { CONFIG } from '../config';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ContentfulService {
@@ -12,11 +13,16 @@ export class ContentfulService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    private readonly configService:ConfigService
   ) {}
 
   
   private async fetchContentfulProducts(): Promise<any[]> {
-    const { CONTENTFUL_SPACE_ID, CONTENTFUL_ENVIRONMENT, CONTENTFUL_ACCESS_TOKEN } = CONFIG.CONTENTFUL_API;
+    
+    const CONTENTFUL_SPACE_ID = this.configService.get<string>('CONTENTFUL_SPACE_ID');
+    const CONTENTFUL_ENVIRONMENT = this.configService.get<string>('CONTENTFUL_ENVIRONMENT');
+    const CONTENTFUL_ACCESS_TOKEN = this.configService.get<string>('CONTENTFUL_ACCESS_TOKEN');
+
     const url = `https://cdn.contentful.com/spaces/${CONTENTFUL_SPACE_ID}/environments/${CONTENTFUL_ENVIRONMENT}/entries?access_token=${CONTENTFUL_ACCESS_TOKEN}&content_type=product`;
 
     try {
@@ -68,6 +74,7 @@ export class ContentfulService {
     }
   }
 
+  @Cron(CronExpression.EVERY_MINUTE)
   public async fetchAndSyncProducts(): Promise<void> {
     try {
       const items = await this.fetchContentfulProducts();
