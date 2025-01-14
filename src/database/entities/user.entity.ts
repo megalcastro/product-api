@@ -20,7 +20,7 @@ export class User {
   password: string;
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
-  role: UserRole;
+  role: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
