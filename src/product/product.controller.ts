@@ -9,12 +9,15 @@ export class ProductsController {
 
   @Get()
   @UseGuards(AuthGuard('jwt'))
-  getAllProducts(
-    @Query('page') page = 1,
-    @Query('category') category?: string,
-    @Query('priceMin') priceMin?: number,
-    @Query('priceMax') priceMax?: number,
-  ) {
-    return this.productsService.getProducts({ page, category, priceMin, priceMax });
+  async getAllProducts(@Query() query: Record<string, any>) {
+    const { page = 1, ...filters } = query;
+
+    const processedFilters = Object.entries(filters).reduce((acc, [key, value]) => {
+      const numValue = Number(value);
+      acc[key] = isNaN(numValue) ? value : numValue;
+      return acc;
+    }, {} as Record<string, any>);
+
+    return this.productsService.getProducts({ page: Number(page), ...processedFilters });
   }
 }
