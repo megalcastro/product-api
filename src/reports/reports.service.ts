@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IsNull, Not, Repository } from 'typeorm';
+import { IsNull, LessThanOrEqual, MoreThanOrEqual, Not, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from '../database/entities/product.entity';
 import { Between } from 'typeorm';
@@ -21,21 +21,31 @@ export class ReportsService {
   }
 
   async getNonDeletedProductsWithPricePercentage(startDate?: Date, endDate?: Date): Promise<number> {
-    const totalProducts = await this.productRepository.count({ where: { deleted: false } });
-
-    const dateFilter = startDate && endDate
-      ? { createdAt: Between(startDate, endDate) }
-      : {};
-
+    const baseFilter = { deleted: false };
+  
+    const dateFilter = {};
+    if (startDate && endDate) {
+      dateFilter['createdAt'] = Between(startDate, endDate);
+    } else {
+      if (startDate) {
+        dateFilter['createdAt'] = MoreThanOrEqual(startDate);
+      }
+      if (endDate) {
+        dateFilter['createdAt'] = LessThanOrEqual(endDate);
+      }
+    }
+  
+    const totalProducts = await this.productRepository.count({ where: baseFilter });
+  
     const productsWithPrice = await this.productRepository.count({
       where: {
-        deleted: false,
-        price: Not(IsNull()), 
+        ...baseFilter,
+        price: Not(IsNull()),
         ...dateFilter,
       },
     });
-
-    if (totalProducts === 0) return 0;
+  
+    if (totalProducts === 0) return 0;  
     return (productsWithPrice / totalProducts) * 100;
   }
 
