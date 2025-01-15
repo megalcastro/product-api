@@ -7,6 +7,7 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 describe('UsersService', () => {
   let service: UsersService;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let userRepository: Repository<User>;
 
   const mockUserRepository = {
@@ -38,23 +39,35 @@ describe('UsersService', () => {
 
   describe('register', () => {
     it('should throw BadRequestException if email exists', async () => {
-      mockUserRepository.findOne.mockResolvedValueOnce({ email: 'test@test.com' });
+      mockUserRepository.findOne.mockResolvedValueOnce({
+        email: 'test@test.com',
+      });
 
       try {
         await service.register('testuser', 'test@test.com', 'password');
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
-        expect(error.message).toEqual('Email user test@test.com already exist ');
+        expect(error.message).toEqual(
+          'Email user test@test.com already exist ',
+        );
       }
     });
 
     it('should create and save user if email does not exist', async () => {
-      const mockUser = { username: 'testuser', email: 'test@test.com', password: 'hashedpassword' };
+      const mockUser = {
+        username: 'testuser',
+        email: 'test@test.com',
+        password: 'hashedpassword',
+      };
       mockUserRepository.findOne.mockResolvedValueOnce(null);
       mockUserRepository.create.mockReturnValue(mockUser);
       mockUserRepository.save.mockResolvedValue(mockUser);
 
-      const result = await service.register('testuser', 'test@test.com', 'password');
+      const result = await service.register(
+        'testuser',
+        'test@test.com',
+        'password',
+      );
       expect(result).toEqual(mockUser);
       expect(mockUserRepository.save).toHaveBeenCalledWith(mockUser);
     });
@@ -97,7 +110,9 @@ describe('UsersService', () => {
       mockUserRepository.delete.mockResolvedValueOnce({ affected: 1 });
 
       const result = await service.deleteUser(1);
-      expect(result).toEqual({ message: 'User with ID 1 deleted successfully' });
+      expect(result).toEqual({
+        message: 'User with ID 1 deleted successfully',
+      });
     });
   });
 
@@ -109,7 +124,9 @@ describe('UsersService', () => {
         await service.findByUserEmail('test@test.com');
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundException);
-        expect(error.message).toEqual('User with username "test@test.com" not found');
+        expect(error.message).toEqual(
+          'User with username "test@test.com" not found',
+        );
       }
     });
 

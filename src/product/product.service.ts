@@ -14,11 +14,13 @@ export class ProductsService {
     const { page = 1, ...filterParams } = filters;
     const take = 5;
     const skip = (page - 1) * take;
-  
-    const query = this.productRepository.createQueryBuilder('product').where('product.deleted = :deleted', {
-      deleted: false,
-    });
-  
+
+    const query = this.productRepository
+      .createQueryBuilder('product')
+      .where('product.deleted = :deleted', {
+        deleted: false,
+      });
+
     Object.entries(filterParams).forEach(([key, value]) => {
       if (value) {
         if (key.endsWith('Min')) {
@@ -32,9 +34,9 @@ export class ProductsService {
         }
       }
     });
-  
+
     const [data, total] = await query.skip(skip).take(take).getManyAndCount();
-  
+
     return { data, total, page };
   }
 
@@ -49,5 +51,4 @@ export class ProductsService {
     await this.productRepository.save(product);
     return true;
   }
-
 }

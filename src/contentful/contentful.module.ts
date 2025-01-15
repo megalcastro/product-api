@@ -5,6 +5,6 @@ import { Product } from '../database/entities/product.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Product])],
-  providers: [ContentfulService,]
+  providers: [ContentfulService],
 })
 export class ContentfulModule {}

@@ -34,7 +34,9 @@ describe('ContentfulService', () => {
     }).compile();
 
     contentfulService = module.get<ContentfulService>(ContentfulService);
-    productRepository = module.get<Repository<Product>>(getRepositoryToken(Product));
+    productRepository = module.get<Repository<Product>>(
+      getRepositoryToken(Product),
+    );
   });
 
   it('should be defined', () => {
@@ -42,71 +44,71 @@ describe('ContentfulService', () => {
   });
 
   it('should sync new products', async () => {
-    
-    const products = [{ 
-      sku: 'sku1', 
-      name: 'Product 1', 
-      price: 100, 
-      stock: 10, 
-      brand: 'Brand 1', 
-      model: 'Model 1',
-      category: 'Category 1',
-      color: 'Red',
-      currency: 'USD',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      id: 1, 
-    }];
-    
-    
-    jest.spyOn(productRepository, 'find').mockResolvedValue([{ 
-      sku: 'sku1', 
-      id: 1, 
-      name: 'Product 1', 
-      price: 100, 
-      stock: 10, 
-      brand: 'Brand 1', 
-      model: 'Model 1',
-      category: 'Category 1',
-      color: 'Red',
-      currency: 'USD',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    } as Product]); 
-  
-    
-    const saveSpy = jest.spyOn(productRepository, 'save').mockResolvedValue(undefined);
-  
-    
+    const products = [
+      {
+        sku: 'sku1',
+        name: 'Product 1',
+        price: 100,
+        stock: 10,
+        brand: 'Brand 1',
+        model: 'Model 1',
+        category: 'Category 1',
+        color: 'Red',
+        currency: 'USD',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        id: 1,
+      },
+    ];
+
+    jest.spyOn(productRepository, 'find').mockResolvedValue([
+      {
+        sku: 'sku1',
+        id: 1,
+        name: 'Product 1',
+        price: 100,
+        stock: 10,
+        brand: 'Brand 1',
+        model: 'Model 1',
+        category: 'Category 1',
+        color: 'Red',
+        currency: 'USD',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      } as Product,
+    ]);
+
+    const saveSpy = jest
+      .spyOn(productRepository, 'save')
+      .mockResolvedValue(undefined);
+
     await contentfulService['syncProducts'](products);
-  
-    
+
     expect(saveSpy).not.toHaveBeenCalled();
   });
-  
 
   it('should save new products', async () => {
-    const products = [{ sku: 'sku2', name: 'Product 2', price: 100, stock: 20 }];
-    
-    
+    const products = [
+      { sku: 'sku2', name: 'Product 2', price: 100, stock: 20 },
+    ];
+
     jest.spyOn(productRepository, 'find').mockResolvedValue([]);
 
-    
-    const saveSpy = jest.spyOn(productRepository, 'save').mockResolvedValue(undefined);
+    const saveSpy = jest
+      .spyOn(productRepository, 'save')
+      .mockResolvedValue(undefined);
 
-    
     await contentfulService['syncProducts'](products);
 
-    
     expect(saveSpy).toHaveBeenCalledWith(products);
   });
 
   it('should handle errors when fetching products', async () => {
-    
     jest.spyOn(axios, 'get').mockRejectedValue(new Error('Network error'));
 
-    
-    await expect(contentfulService['fetchContentfulProducts']()).rejects.toThrow('Network error');
+    await expect(
+      contentfulService['fetchContentfulProducts'](),
+    ).rejects.toThrow('Network error');
   });
 
   it('should map Contentful data to Product model', () => {
@@ -121,7 +123,8 @@ describe('ContentfulService', () => {
       },
     ];
 
-    const mappedProducts = contentfulService['mapContentfulData'](contentfulItems);
+    const mappedProducts =
+      contentfulService['mapContentfulData'](contentfulItems);
 
     expect(mappedProducts).toHaveLength(1);
     expect(mappedProducts[0]).toEqual({

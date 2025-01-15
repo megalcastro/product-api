@@ -1,7 +1,14 @@
-import { BadRequestException, Controller, Get, Param, Patch, Query, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ProductsService } from './product.service';
 import { AuthGuard } from '@nestjs/passport';
-
 
 @Controller('products')
 @UseGuards(AuthGuard('jwt'))
@@ -12,13 +19,19 @@ export class ProductsController {
   async getAllProducts(@Query() query: Record<string, any>) {
     const { page = 1, ...filters } = query;
 
-    const processedFilters = Object.entries(filters).reduce((acc, [key, value]) => {
-      const numValue = Number(value);
-      acc[key] = isNaN(numValue) ? value : numValue;
-      return acc;
-    }, {} as Record<string, any>);
+    const processedFilters = Object.entries(filters).reduce(
+      (acc, [key, value]) => {
+        const numValue = Number(value);
+        acc[key] = isNaN(numValue) ? value : numValue;
+        return acc;
+      },
+      {} as Record<string, any>,
+    );
 
-    return this.productsService.getProducts({ page: Number(page), ...processedFilters });
+    return this.productsService.getProducts({
+      page: Number(page),
+      ...processedFilters,
+    });
   }
 
   @Patch('delete/:sku')
@@ -29,5 +42,4 @@ export class ProductsController {
     }
     return { message: 'Product deleted' };
   }
-
 }

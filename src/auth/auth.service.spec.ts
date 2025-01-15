@@ -54,7 +54,9 @@ describe('AuthService', () => {
         throw new UnauthorizedException();
       });
 
-      await expect(authService.validateToken(token)).rejects.toThrow(UnauthorizedException);
+      await expect(authService.validateToken(token)).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
   });
 
@@ -62,8 +64,7 @@ describe('AuthService', () => {
     it('should return user data without password if credentials are valid', async () => {
       const email = 'user@example.com';
       const password = 'password123';
-  
-      
+
       const user = {
         id: 1,
         email,
@@ -75,17 +76,23 @@ describe('AuthService', () => {
       };
 
       jest.spyOn(usersService, 'findByUserEmail').mockResolvedValue(user);
-  
+
       const result = await authService.validateUser(email, password);
-  
-      expect(result).toEqual({ id: 1, email, username: 'testuser', role: 'user',createdAt: expect.any(Date),
-        updatedAt: expect.any(Date) });
+
+      expect(result).toEqual({
+        id: 1,
+        email,
+        username: 'testuser',
+        role: 'user',
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
+      });
     });
-  
+
     it('should throw UnauthorizedException if credentials are invalid', async () => {
       const email = 'user@example.com';
       const password = 'wrongPassword';
-  
+
       const user = {
         id: 1,
         email,
@@ -95,19 +102,18 @@ describe('AuthService', () => {
         createdAt: new Date(),
         updatedAt: new Date(),
       };
-  
+
       jest.spyOn(usersService, 'findByUserEmail').mockResolvedValue(user);
-  
-      await expect(authService.validateUser(email, password)).rejects.toThrow(UnauthorizedException);
+
+      await expect(authService.validateUser(email, password)).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
   });
-  
-  
 
   describe('login', () => {
     it('should return a JWT access token', async () => {
       const user = { id: '1', email: 'user@example.com' };
-      const payload = { email: user.email, sub: user.id };
       const accessToken = 'jwtAccessToken';
       jest.spyOn(jwtService, 'sign').mockReturnValue(accessToken);
 

@@ -18,7 +18,11 @@ export class ReportsController {
   ): Promise<{ percentage: number }> {
     const start = startDate ? new Date(startDate) : undefined;
     const end = endDate ? new Date(endDate) : undefined;
-    const percentage = await this.reportsService.getNonDeletedProductsWithPricePercentage(start, end);
+    const percentage =
+      await this.reportsService.getNonDeletedProductsWithPricePercentage(
+        start,
+        end,
+      );
     return { percentage };
   }
 

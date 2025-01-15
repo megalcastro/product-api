@@ -26,7 +26,12 @@ describe('AuthController', () => {
   });
 
   it('should call validateUser and login on login', async () => {
-    const mockUser = { id: 1, email: 'test@example.com', username: 'testuser', role: 'user' };
+    const mockUser = {
+      id: 1,
+      email: 'test@example.com',
+      username: 'testuser',
+      role: 'user',
+    };
     const mockToken = { access_token: 'mockToken' };
     const loginDto = { email: 'test@example.com', password: 'testPassword' };
 
@@ -35,7 +40,10 @@ describe('AuthController', () => {
 
     const result = await authController.login(loginDto);
 
-    expect(authService.validateUser).toHaveBeenCalledWith(loginDto.email, loginDto.password);
+    expect(authService.validateUser).toHaveBeenCalledWith(
+      loginDto.email,
+      loginDto.password,
+    );
     expect(authService.login).toHaveBeenCalledWith(mockUser);
     expect(result).toEqual(mockToken);
   });
@@ -43,10 +51,17 @@ describe('AuthController', () => {
   it('should throw UnauthorizedException if validateUser fails', async () => {
     const loginDto = { email: 'wrong@example.com', password: 'wrongPassword' };
 
-    jest.spyOn(authService, 'validateUser').mockRejectedValue(new UnauthorizedException('Invalid credentials'));
+    jest
+      .spyOn(authService, 'validateUser')
+      .mockRejectedValue(new UnauthorizedException('Invalid credentials'));
 
-    await expect(authController.login(loginDto)).rejects.toThrow(UnauthorizedException);
-    expect(authService.validateUser).toHaveBeenCalledWith(loginDto.email, loginDto.password);
+    await expect(authController.login(loginDto)).rejects.toThrow(
+      UnauthorizedException,
+    );
+    expect(authService.validateUser).toHaveBeenCalledWith(
+      loginDto.email,
+      loginDto.password,
+    );
     expect(authService.login).not.toHaveBeenCalled();
   });
 });

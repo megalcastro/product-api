@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsController } from './product.controller';
 import { ProductsService } from './product.service';
 import { BadRequestException } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { Product } from '../database/entities/product.entity';
 
 describe('ProductsController', () => {
@@ -66,16 +65,17 @@ describe('ProductsController', () => {
           updatedAt: new Date(),
         },
       ];
-  
-      jest.spyOn(service, 'getProducts').mockResolvedValue({ data: products, total: 2, page: 1 });
-  
+
+      jest
+        .spyOn(service, 'getProducts')
+        .mockResolvedValue({ data: products, total: 2, page: 1 });
+
       const result = await controller.getAllProducts(filters);
       expect(result.data).toEqual(products);
       expect(result.total).toBe(2);
       expect(result.page).toBe(1);
     });
   });
-  
 
   describe('deleteProduct', () => {
     it('should delete product successfully', async () => {

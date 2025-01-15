@@ -9,12 +9,18 @@ import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
-  imports: [AuthModule, ContentfulModule, ReportsModule, DatabaseModule, ProductModule, UsersModule,
+  imports: [
+    AuthModule,
+    ContentfulModule,
+    ReportsModule,
+    DatabaseModule,
+    ProductModule,
+    UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
     }),
-    ScheduleModule.forRoot()
+    ScheduleModule.forRoot(),
   ],
 })
 export class AppModule {}

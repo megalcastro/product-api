@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { AuthGuard } from '@nestjs/passport';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './create-user.dto';
 
 describe('UsersController', () => {
@@ -34,24 +33,26 @@ describe('UsersController', () => {
   });
 
   it('should create a user', async () => {
-    const createUserDto: CreateUserDto = { username: 'testuser', email: 'test@example.com', password: 'password' };
-  
+    const createUserDto: CreateUserDto = {
+      username: 'testuser',
+      email: 'test@example.com',
+      password: 'password',
+    };
+
     const result = {
       id: 1,
       username: 'testuser',
       email: 'test@example.com',
-      password: 'hashedpassword', 
-      role: 'user',               
-      createdAt: new Date(),      
-      updatedAt: new Date(),      
+      password: 'hashedpassword',
+      role: 'user',
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
-  
-    
+
     jest.spyOn(service, 'register').mockResolvedValue(result);
-  
+
     expect(await controller.createUser(createUserDto)).toEqual(result);
   });
-  
 
   it('should return all users', async () => {
     const users = [
@@ -74,13 +75,12 @@ describe('UsersController', () => {
         updatedAt: new Date(),
       },
     ];
-  
+
     jest.spyOn(service, 'findAll').mockResolvedValue(users);
-  
+
     const result = await controller.findAll();
     expect(result).toEqual(users);
   });
-  
 
   describe('findOne', () => {
     it('should return a user by id', async () => {
@@ -88,10 +88,10 @@ describe('UsersController', () => {
         id: 1,
         username: 'testuser',
         email: 'test@example.com',
-        password: 'hashedpassword', 
-        role: 'user',               
-        createdAt: new Date(),      
-        updatedAt: new Date(),      
+        password: 'hashedpassword',
+        role: 'user',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
 
       jest.spyOn(service, 'findOne').mockResolvedValue(result);
@@ -100,7 +100,9 @@ describe('UsersController', () => {
     });
 
     it('should throw a NotFoundException if user not found', async () => {
-      jest.spyOn(service, 'findOne').mockRejectedValue(new NotFoundException('User with ID 999 not found'));
+      jest
+        .spyOn(service, 'findOne')
+        .mockRejectedValue(new NotFoundException('User with ID 999 not found'));
 
       try {
         await controller.findOne(999);
@@ -120,7 +122,9 @@ describe('UsersController', () => {
     });
 
     it('should throw a NotFoundException if user not found', async () => {
-      jest.spyOn(service, 'deleteUser').mockRejectedValue(new NotFoundException('User with ID 999 not found'));
+      jest
+        .spyOn(service, 'deleteUser')
+        .mockRejectedValue(new NotFoundException('User with ID 999 not found'));
 
       try {
         await controller.deleteUser(999);

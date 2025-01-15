@@ -13,15 +13,19 @@ export class ContentfulService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
-    private readonly configService:ConfigService
+    private readonly configService: ConfigService,
   ) {}
 
-  
   private async fetchContentfulProducts(): Promise<any[]> {
-    
-    const CONTENTFUL_SPACE_ID = this.configService.get<string>('CONTENTFUL_SPACE_ID');
-    const CONTENTFUL_ENVIRONMENT = this.configService.get<string>('CONTENTFUL_ENVIRONMENT');
-    const CONTENTFUL_ACCESS_TOKEN = this.configService.get<string>('CONTENTFUL_ACCESS_TOKEN');
+    const CONTENTFUL_SPACE_ID = this.configService.get<string>(
+      'CONTENTFUL_SPACE_ID',
+    );
+    const CONTENTFUL_ENVIRONMENT = this.configService.get<string>(
+      'CONTENTFUL_ENVIRONMENT',
+    );
+    const CONTENTFUL_ACCESS_TOKEN = this.configService.get<string>(
+      'CONTENTFUL_ACCESS_TOKEN',
+    );
 
     const url = `https://cdn.contentful.com/spaces/${CONTENTFUL_SPACE_ID}/environments/${CONTENTFUL_ENVIRONMENT}/entries?access_token=${CONTENTFUL_ACCESS_TOKEN}&content_type=product`;
 
@@ -36,7 +40,10 @@ export class ContentfulService {
 
       return response.data.items;
     } catch (error) {
-      this.logger.error('Error fetching products from Contentful:', error.message);
+      this.logger.error(
+        'Error fetching products from Contentful:',
+        error.message,
+      );
       throw error;
     }
   }

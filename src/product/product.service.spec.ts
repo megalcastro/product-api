@@ -1,4 +1,3 @@
-
 import { ProductsService } from './product.service';
 import { Product } from '../database/entities/product.entity';
 
@@ -18,11 +17,28 @@ describe('ProductsService', () => {
 
   describe('getProducts', () => {
     it('should return paginated products with filters', async () => {
-      const filters = { page: 1, priceMin: 100, priceMax: 500, name: 'product' };
+      const filters = {
+        page: 1,
+        priceMin: 100,
+        priceMax: 500,
+        name: 'product',
+      };
 
       const products: Product[] = [
-        { sku: 'sku1', name: 'Product 1', price: 100, stock: 10, deleted: false } as Product,
-        { sku: 'sku2', name: 'Product 2', price: 300, stock: 5, deleted: false } as Product,
+        {
+          sku: 'sku1',
+          name: 'Product 1',
+          price: 100,
+          stock: 10,
+          deleted: false,
+        } as Product,
+        {
+          sku: 'sku2',
+          name: 'Product 2',
+          price: 300,
+          stock: 5,
+          deleted: false,
+        } as Product,
       ];
 
       const queryBuilderMock = {
@@ -72,7 +88,10 @@ describe('ProductsService', () => {
       const result = await productService.deleteProductBySku('sku1');
 
       expect(result).toBe(true);
-      expect(productRepository.save).toHaveBeenCalledWith({ ...product, deleted: true });
+      expect(productRepository.save).toHaveBeenCalledWith({
+        ...product,
+        deleted: true,
+      });
     });
 
     it('should return false if product does not exist', async () => {

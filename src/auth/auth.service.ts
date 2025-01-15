@@ -15,13 +15,14 @@ export class AuthService {
       const decoded = this.jwtService.verify(token);
       return decoded;
     } catch (error) {
-      throw new UnauthorizedException('Invalid token');
+      throw new UnauthorizedException('Invalid token', error);
     }
   }
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findByUserEmail(email);
     if (user && (await bcrypt.compare(password, user.password))) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
       return result;
     }
