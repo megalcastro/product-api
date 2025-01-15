@@ -78,7 +78,7 @@ describe('AuthService', () => {
   
       const result = await authService.validateUser(email, password);
   
-      expect(result).toEqual({ id: 1, email, username: 'testuser', role: 'user',createdAt: expect.any(Date),  // Puedes usar expect.any(Date) para indicar que esperamos una fecha
+      expect(result).toEqual({ id: 1, email, username: 'testuser', role: 'user',createdAt: expect.any(Date),
         updatedAt: expect.any(Date) });
     });
   
