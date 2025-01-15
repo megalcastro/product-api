@@ -1,0 +1,45 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # Job para linters y tests
+  lint_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Run linters
+      - name: Run ESLint
+        run: npm run lint
+
+      # Run unit tests
+      - name: Run unit tests
+        run: npm run test
+
+      # Run code coverage
+      - name: Run code coverage
+        run: npm run test:cov
+
+      # Upload code coverage to GitHub (optional)
+      - name: Upload coverage to GitHub
+        uses: codecov/codecov-action@v2
+        with:
+          file: ./coverage/lcov-report/index.html
