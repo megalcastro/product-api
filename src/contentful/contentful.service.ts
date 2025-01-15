@@ -74,7 +74,7 @@ export class ContentfulService {
     }
   }
 
-  @Cron(CronExpression.EVERY_HOUR)
+  @Cron(CronExpression.EVERY_MINUTE)
   public async fetchAndSyncProducts(): Promise<void> {
     try {
       const items = await this.fetchContentfulProducts();
