@@ -3,9 +3,19 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
+import { ContentfulService } from './contentful/contentful.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const contentfulService = app.get(ContentfulService);
+  
+   contentfulService.fetchAndSyncProducts().then(() =>{
+    console.log(`Data sync products sucefully `)
+   }).catch(error =>{
+    `Error Data sync products ${error}` 
+   })
+
 
   app.setGlobalPrefix('api');
 
