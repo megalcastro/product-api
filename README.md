@@ -14,11 +14,18 @@ Este proyecto es una API para la gestión de productos, con sincronización auto
 Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
 
 ```env
-DATABASE_URL=postgresql://user:password@localhost:5432/your_db
-CONTENTFUL_SPACE_ID=your_space_id
-CONTENTFUL_ENVIRONMENT=your_environment
-CONTENTFUL_ACCESS_TOKEN=your_access_token
-JWT_SECRET=your_jwt_secret
+JWT_SECRET=your_secret_key_here
+
+CONTENTFUL_SPACE_ID=''
+CONTENTFUL_ACCESS_TOKEN=''
+CONTENTFUL_ENVIRONMENT=master
+CONTENTFUL_CONTENT_TYPE=product
+
+DB_HOST='localhost'
+DB_PORT='5432'
+DB_USER=''
+DB_PASSWORD=''
+DB_NAME='tasks_db'
 ```
 
 ## Instalación
