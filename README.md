@@ -1,27 +1,26 @@
 # Product API
 
-Este proyecto es una API para la gestión de productos, con sincronización automática desde Contentful y funcionalidades para pruebas, linting, y cobertura.
+This project is an API for managing products, with automatic synchronization from Contentful and features for testing, linting, and coverage.
 
-## Requisitos Previos
+## Prerequisites
 
-- Docker (compatible con Colima en macOS/Linux)
+- Docker (compatible with Colima on macOS/Linux)
 - Node.js 18+
-- npm o Yarn
-- Configuración de entorno válida
+- npm or Yarn
+- Valid environment configuration
 
+## Installation
 
-## Instalación
-
-1. Clona el repositorio:
+1. Clone the repository:
 
    ```bash
    git clone https://github.com/megalcastro/product-api.git
    cd product-api
    ```
 
-## Variables de Entorno
+## Environment Variables
 
-Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
+Create a `.env` file in the root of the project with the following variables:
 
 ```env
 JWT_SECRET=your_secret_key_here
@@ -38,37 +37,38 @@ DB_PASSWORD=''
 DB_NAME='tasks_db'
 ```
 
-2. Instala las dependencias:
+2. Install dependencies:
 
    ```bash
    npm install
-   # o
+   # or
    yarn install
    ```
 
-## Ejecutar con Docker
+## Running with Docker
 
-### Configuración
+### Setup
 
-1. Asegúrate de tener Docker instalado. Si usas macOS/Linux, instala y usa Colima(si tienes docker desktop instalado en maquina local sigue con el paso #2):
+1. Make sure Docker is installed. If you use macOS/Linux, install and use Colima (if Docker Desktop is installed locally, proceed to step #2):
 
    ```bash
    colima start
    ```
 
-2. Construye y ejecuta el contenedor:
+2. Build and run the container:
 
    ```bash
    docker-compose up --build
    ```
 
-3. felicidades products api ya se encuentra corriendo con docker 🎊  ㊗️  🥳
+3. Congratulations, the Products API is now running with Docker 🎉 ㋿️ 🥳
 
-## Ejemplos de pruebas usando la api via http
+## API Testing Examples via HTTP
 
- ### registrarse antes para usar las api 
- ```
-   curl --location 'http://localhost:3000/api/users' \
+### Register before using the APIs
+
+```bash
+curl --location 'http://localhost:3000/api/users' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "username": "lucho",
@@ -76,45 +76,45 @@ DB_NAME='tasks_db'
     "password": "123456"
 }'
 ```
-### luego has un login 
-```
- curl --location 'http://localhost:3000/api/auth/login' \
+
+### Log in
+
+```bash
+curl --location 'http://localhost:3000/api/auth/login' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "email":"guardian.99@hotmail.com",
-    "password":"123456"
+    "email": "guardian.99@hotmail.com",
+    "password": "123456"
 }'
 ```
 
-### luego copia y pega el access_token generado como bearertoken para obtener todos los productos
+### Copy and paste the generated `access_token` as a Bearer token to retrieve all products
 
-```
+```bash
 curl --location 'http://localhost:3000/api/products' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imd1YXJkaWFuLjk5QGhvdG1haWwuY29tIiwic3ViIjoxLCJpYXQiOjE3MzcyMTM4MDcsImV4cCI6MTczNzIxNzQwN30.EByyfn9VQF2cT_zq3dX8kwFiXKELV82HGnhI24qeBZc'
 ```
 
-### para eliminar productos
+### To delete products
 
-```
+```bash
 curl --location --request PATCH 'http://localhost:3000/api/products/delete/ZIMPDOPD' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imd1YXJkaWFuLjk5QGhvdG1haWwuY29tIiwic3ViIjoxLCJpYXQiOjE3MzcyMTM4MDcsImV4cCI6MTczNzIxNzQwN30.EByyfn9VQF2cT_zq3dX8kwFiXKELV82HGnhI24qeBZc'
 ```
 
-### reporte de productos eliminados
+### Report of deleted products
 
-```
+```bash
 curl --location 'http://localhost:3000/api/reports/deleted-percentage'
 ```
 
+### Automatic Product Insertion from Contentful
 
+The `ContentfulService` automatically synchronizes products upon container startup using the `@Cron` method. This ensures products stay updated without manual intervention.
 
-### Inserción Automática de Productos desde Contentful
+## Running in Development without Docker
 
-El servicio `ContentfulService` sincroniza automáticamente los productos al iniciar el contenedor gracias al método decorado con `@Cron`. Esto asegura que los productos estén actualizados sin intervención manual.
-
-## Ejecutar en Desarrollo sin usar docker
-
-1. Ejecuta la base de datos localmente (opcional con Docker):
+1. Run the database locally (optionally with Docker):
 
    ```bash
    docker run -d \
@@ -126,26 +126,26 @@ El servicio `ContentfulService` sincroniza automáticamente los productos al ini
      postgres:15
    ```
 
-2. Inicia la aplicación:
+2. Start the application:
 
    ```bash
    npm run start:dev
-   # o
+   # or
    yarn start:dev
    ```
 
-## Ejecutar Pruebas Unitarias
+## Running Unit Tests
 
-Para ejecutar las pruebas unitarias y obtener métricas de cobertura:
+To run unit tests and get coverage metrics:
 
 ```bash
 npm run test
 npm run test:cov
 ```
 
-## Validar Linters
+## Validate Linters
 
-Asegúrate de que el código sigue las reglas del linter:
+Ensure the code adheres to linter rules:
 
 ```bash
 npm run lint
@@ -153,21 +153,20 @@ npm run lint
 
 ## GitHub Actions
 
-El proyecto incluye un flujo de trabajo para ejecutar pruebas y validaciones en cada `push` o `pull request`. El archivo `.github/workflows/ci.yml` asegura que los linters y las pruebas se ejecuten automáticamente.
+The project includes a workflow to run tests and validations on every `push` or `pull request`. The `.github/workflows/ci.yml` file ensures that linters and tests are executed automatically.
 
+## FAQs
 
-## Preguntas Frecuentes
+### What does the Contentful synchronization do?
 
-### ¿Qué hace la sincronización de Contentful?
+The `ContentfulService` performs the following actions:
 
-El servicio `ContentfulService` realiza las siguientes acciones:
+1. Fetches products from Contentful using its API.
+2. Maps the data to match the database model.
+3. Inserts new products into the database.
+4. Avoids duplicates using the SKU key.
 
-1. Descarga productos desde Contentful usando su API.
-2. Mapea los datos para ajustarse al modelo de base de datos.
-3. Inserta productos nuevos en la base de datos.
-4. Evita duplicados usando la clave SKU.
-   
 ---
 
-¡Gracias por usar Product API! Si tienes dudas o sugerencias, no dudes en abrir un issue en el repositorio.
+Thank you for using Product API! If you have questions or suggestions, feel free to open an issue in the repository.
 
