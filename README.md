@@ -15,7 +15,7 @@ Este proyecto es una API para la gestión de productos, con sincronización auto
 1. Clona el repositorio:
 
    ```bash
-   git clone https://github.com/tu-usuario/product-api.git
+   git clone https://github.com/megalcastro/product-api.git
    cd product-api
    ```
 
@@ -50,7 +50,7 @@ DB_NAME='tasks_db'
 
 ### Configuración
 
-1. Asegúrate de tener Docker instalado. Si usas macOS/Linux, instala y usa Colima:
+1. Asegúrate de tener Docker instalado. Si usas macOS/Linux, instala y usa Colima(si tienes docker desktop instalado en maquina local sigue con el paso #2):
 
    ```bash
    colima start
@@ -109,26 +109,6 @@ npm run lint
 
 El proyecto incluye un flujo de trabajo para ejecutar pruebas y validaciones en cada `push` o `pull request`. El archivo `.github/workflows/ci.yml` asegura que los linters y las pruebas se ejecuten automáticamente.
 
-## Contribuir
-
-1. Crea una rama para tu funcionalidad:
-
-   ```bash
-   git checkout -b feature/nueva-funcionalidad
-   ```
-
-2. Haz tus cambios y confirma:
-
-   ```bash
-   git add .
-   git commit -m "Agrega nueva funcionalidad"
-   ```
-
-3. Sube tus cambios y abre un Pull Request:
-
-   ```bash
-   git push origin feature/nueva-funcionalidad
-   ```
 
 ## Preguntas Frecuentes
 
@@ -140,11 +120,7 @@ El servicio `ContentfulService` realiza las siguientes acciones:
 2. Mapea los datos para ajustarse al modelo de base de datos.
 3. Inserta productos nuevos en la base de datos.
 4. Evita duplicados usando la clave SKU.
-
-### ¿Cómo agrego nuevos productos manualmente?
-
-Puedes usar el servicio de productos para agregar nuevos productos manualmente. Consulta la documentación de la API para más detalles.
-
+   
 ---
 
 ¡Gracias por usar Product API! Si tienes dudas o sugerencias, no dudes en abrir un issue en el repositorio.
