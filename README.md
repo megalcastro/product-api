@@ -62,11 +62,13 @@ DB_NAME='tasks_db'
    docker-compose up --build
    ```
 
+3. felicidades products api ya se encuentra corriendo con docker 🎊  ㊗️  🥳
+
 ### Inserción Automática de Productos desde Contentful
 
 El servicio `ContentfulService` sincroniza automáticamente los productos al iniciar el contenedor gracias al método decorado con `@Cron`. Esto asegura que los productos estén actualizados sin intervención manual.
 
-## Ejecutar en Desarrollo
+## Ejecutar en Desarrollo sin usar docker
 
 1. Ejecuta la base de datos localmente (opcional con Docker):
 
