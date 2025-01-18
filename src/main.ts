@@ -9,13 +9,15 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const contentfulService = app.get(ContentfulService);
-  
-   contentfulService.fetchAndSyncProducts().then(() =>{
-    console.log(`Data sync products sucefully `)
-   }).catch(error =>{
-    `Error Data sync products ${error}` 
-   })
 
+  contentfulService
+    .fetchAndSyncProducts()
+    .then(() => {
+      console.log(`Data sync products sucefully `);
+    })
+    .catch((error) => {
+      console.log(`Error Data sync products ${error}`);
+    });
 
   app.setGlobalPrefix('api');
 
