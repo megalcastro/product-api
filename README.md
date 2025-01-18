@@ -9,6 +9,16 @@ Este proyecto es una API para la gestión de productos, con sincronización auto
 - npm o Yarn
 - Configuración de entorno válida
 
+
+## Instalación
+
+1. Clona el repositorio:
+
+   ```bash
+   git clone https://github.com/tu-usuario/product-api.git
+   cd product-api
+   ```
+
 ## Variables de Entorno
 
 Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
@@ -27,15 +37,6 @@ DB_USER=''
 DB_PASSWORD=''
 DB_NAME='tasks_db'
 ```
-
-## Instalación
-
-1. Clona el repositorio:
-
-   ```bash
-   git clone https://github.com/tu-usuario/product-api.git
-   cd product-api
-   ```
 
 2. Instala las dependencias:
 
