@@ -64,6 +64,50 @@ DB_NAME='tasks_db'
 
 3. felicidades products api ya se encuentra corriendo con docker 🎊  ㊗️  🥳
 
+## Ejemplos de pruebas usando la api via http
+
+ ### registrarse antes para usar las api 
+ ```
+   curl --location 'http://localhost:3000/api/users' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "lucho",
+    "email": "guardian.99@hotmail.com",
+    "password": "123456"
+}'
+```
+### luego has un login 
+```
+ curl --location 'http://localhost:3000/api/auth/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email":"guardian.99@hotmail.com",
+    "password":"123456"
+}'
+```
+
+### luego copia y pega el access_token generado como bearertoken para obtener todos los productos
+
+```
+curl --location 'http://localhost:3000/api/products' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imd1YXJkaWFuLjk5QGhvdG1haWwuY29tIiwic3ViIjoxLCJpYXQiOjE3MzcyMTM4MDcsImV4cCI6MTczNzIxNzQwN30.EByyfn9VQF2cT_zq3dX8kwFiXKELV82HGnhI24qeBZc'
+```
+
+### para eliminar productos
+
+```
+curl --location --request PATCH 'http://localhost:3000/api/products/delete/ZIMPDOPD' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imd1YXJkaWFuLjk5QGhvdG1haWwuY29tIiwic3ViIjoxLCJpYXQiOjE3MzcyMTM4MDcsImV4cCI6MTczNzIxNzQwN30.EByyfn9VQF2cT_zq3dX8kwFiXKELV82HGnhI24qeBZc'
+```
+
+### reporte de productos eliminados
+
+```
+curl --location 'http://localhost:3000/api/reports/deleted-percentage'
+```
+
+
+
 ### Inserción Automática de Productos desde Contentful
 
 El servicio `ContentfulService` sincroniza automáticamente los productos al iniciar el contenedor gracias al método decorado con `@Cron`. Esto asegura que los productos estén actualizados sin intervención manual.
